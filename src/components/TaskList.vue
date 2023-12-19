@@ -1,92 +1,53 @@
 <template>
-  <div class="task-list-container">
-    <!-- Champ de saisie pour une nouvelle tâche -->
-    <input type="text" v-model="newTaskName" @keyup.enter="addTask" placeholder="Ajouter une nouvelle tâche" />
-    <!-- Bouton pour ajouter la tâche à la liste -->
-
-    <button @click="addTask">Ajouter</button>
-
-    <!-- Affichage de la liste des tâches -->
-    <ul>
-      <li v-for="(task, index) in taskList" :key="index">{{ task }}</li>
-    </ul>
-  </div>
+  <ul class="task-list">
+    <li v-for="(task, index) in tasks" :key="index" class="task-item">
+      {{ task }}
+      <!-- Poue supprimer une tâche  -->
+      <TaskRemove @remove-task="() => removeTask(index)" />
+    </li>
+  </ul>
 </template>
 
 <script>
+import TaskRemove from './TaskRemove.vue';
+
 export default {
   name: 'TaskList',
-  data() {
-    return {
-      // Nouveau nom de tâche lié au champ de texte
-      newTaskName: '',
-      // Liste des tâches
-      taskList: []
-    };
+  components: {
+    TaskRemove
+  },
+  props: {
+    tasks: Array
   },
   methods: {
-    // Méthode pour ajouter une tâche à la liste
-    addTask() {
-      if (this.newTaskName.trim() !== '') {
-        this.taskList.push(this.newTaskName);
-        this.newTaskName = ''; // Réinitialiser le champ de texte
-      }
+    removeTask(index) {
+      this.$emit('remove-task', index);
     }
   }
 };
 </script>
 
 <style scoped>
-.task-list-container {
-  max-width: 400%;
-  margin: 40px auto;
-  padding: 20px;
-  background: #f9f9f9;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+.task-list {
+  list-style-type: none;
+  padding-left: 0;
+  margin-left: 0;
+  text-align: left;
 }
 
-.task-list-container input[type="text"] {
-  width: 70%;
-  padding: 10px;
-  margin-right: 10px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.task-list-container button {
-  padding: 10px 20px;
-  background-color: #5cb85c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.task-list-container button:hover {
-  background-color: #4cae4c;
-}
-
-.task-list-container ul li::marker {
-  content: none !important;
-}
-
-.task-list-container ul {
-  list-style: none !important; /* This should remove the default list-style */
-  padding-left: 0 !important; /* Ensures there's no padding causing indentation */
-  margin-left: 0 !important; /* Ensures there's no margin causing indentation */
-}
-
-.task-list-container li {
+.task-item {
   background: #fff;
   margin-bottom: 10px;
-  padding: 10px 20px; /* Add horizontal padding for alignment */
+  padding: 10px 20px;
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-  text-align: center; /* Align text to the left within each li */
-  display: block; /* Ensures li takes up the full width of ul */
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.task-item > :first-child {
+  margin-right: 10px;
 }
 </style>
 
