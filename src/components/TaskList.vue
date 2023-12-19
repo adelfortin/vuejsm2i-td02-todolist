@@ -1,9 +1,9 @@
 <template>
-  <div>
+  <div class="task-list-container">
     <!-- Champ de saisie pour une nouvelle tâche -->
-    <input type="text" v-model="newTaskName" placeholder="Ajouter une nouvelle tâche" />
-
+    <input type="text" v-model="newTaskName" @keyup.enter="addTask" placeholder="Ajouter une nouvelle tâche" />
     <!-- Bouton pour ajouter la tâche à la liste -->
+
     <button @click="addTask">Ajouter</button>
 
     <!-- Affichage de la liste des tâches -->
@@ -38,7 +38,7 @@ export default {
 
 <style scoped>
 .task-list-container {
-  max-width: 400px;
+  max-width: 400%;
   margin: 40px auto;
   padding: 20px;
   background: #f9f9f9;
@@ -69,18 +69,24 @@ export default {
   background-color: #4cae4c;
 }
 
+.task-list-container ul li::marker {
+  content: none !important;
+}
+
 .task-list-container ul {
-  list-style: none;
-  padding: 0;
-  margin-top: 20px;
+  list-style: none !important; /* This should remove the default list-style */
+  padding-left: 0 !important; /* Ensures there's no padding causing indentation */
+  margin-left: 0 !important; /* Ensures there's no margin causing indentation */
 }
 
 .task-list-container li {
   background: #fff;
   margin-bottom: 10px;
-  padding: 10px;
+  padding: 10px 20px; /* Add horizontal padding for alignment */
   border-radius: 4px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  text-align: center; /* Align text to the left within each li */
+  display: block; /* Ensures li takes up the full width of ul */
 }
 </style>
 
